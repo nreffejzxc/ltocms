@@ -14,7 +14,6 @@
     "test": "jest",
     "seed": "ts-node src/scripts/seed.ts",
     "seed:prod": "NODE_ENV=production ts-node src/scripts/seed.ts",
-    "postinstall": "npm run build",
     "prebuild": "rm -rf dist"
   },
   "dependencies": {

@@ -15,7 +15,7 @@ RUN adduser -S nodejs -u 1001
 COPY --chown=nodejs:nodejs package*.json ./
 
 # Install dependencies (including dev dependencies for building)
-RUN npm ci --only=production=false
+RUN npm ci
 
 # Copy source code
 COPY --chown=nodejs:nodejs . .

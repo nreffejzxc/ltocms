@@ -3,7 +3,7 @@ services:
     name: ltocms-backend
     env: node
     plan: free
-    buildCommand: npm ci && npm run build
+    buildCommand: npm install && npm run build
     startCommand: node dist/server.js
     healthCheckPath: /api/health
     envVars:
