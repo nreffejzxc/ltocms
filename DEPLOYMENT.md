@@ -175,10 +175,36 @@ After seeding, you can use these test accounts:
 
 ### Common Issues
 
-1. **CORS Errors**: Ensure `FRONTEND_URL` in backend matches your Vercel URL
-2. **OAuth Issues**: Verify redirect URIs in Google Cloud Console
-3. **Database Connection**: Check MongoDB Atlas IP whitelist (set to 0.0.0.0/0 for all IPs)
-4. **Build Failures**: Check build logs in Railway/Vercel dashboards
+1. **Railway "No start command found" Error**:
+
+   - The backend now includes multiple configuration files to fix this:
+     - `nixpacks.toml` - Explicit Nixpacks configuration
+     - `Procfile` - Heroku-style process file
+     - `railway.json` - Railway-specific configuration
+   - If still failing, try redeploying or check Railway logs
+
+2. **CORS Errors**: Ensure `FRONTEND_URL` in backend matches your Vercel URL
+
+3. **OAuth Issues**: Verify redirect URIs in Google Cloud Console
+
+4. **Database Connection**: Check MongoDB Atlas IP whitelist (set to 0.0.0.0/0 for all IPs)
+
+5. **Build Failures**: Check build logs in Railway/Vercel dashboards
+
+### Railway Deployment Issues
+
+If Railway deployment fails:
+
+1. **Check the build logs** in Railway dashboard
+2. **Verify environment variables** are set correctly
+3. **Try redeploying** - sometimes Railway needs a fresh deployment
+4. **Alternative: Use Railway CLI**:
+   ```bash
+   npm install -g @railway/cli
+   railway login
+   railway link
+   railway up
+   ```
 
 ### Environment Variables Checklist
 

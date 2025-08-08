@@ -82,6 +82,7 @@ git add .gitignore backend/.gitignore frontend/.gitignore
 git add backend/.env.example frontend/.env.example
 git add *.md *.sh *.json
 git add backend/railway.json backend/Dockerfile backend/healthcheck.js
+git add backend/Procfile backend/nixpacks.toml
 git add frontend/vercel.json frontend/src/vite-env.d.ts
 
 # Verify no .env files are being added
