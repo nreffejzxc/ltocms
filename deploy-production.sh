@@ -84,6 +84,7 @@ git add *.md *.sh *.json *.yaml
 git add backend/railway.json backend/Dockerfile backend/healthcheck.js
 git add backend/Procfile backend/nixpacks.toml backend/render.yaml
 git add frontend/vercel.json frontend/src/vite-env.d.ts
+git add RAILWAY-DEPLOYMENT-GUIDE.md
 
 # Verify no .env files are being added
 if git diff --cached --name-only | grep -E "\.env$" > /dev/null; then
@@ -112,11 +113,12 @@ echo "🎯 Next Steps for Deployment:"
 echo "=============================="
 echo ""
 echo "1. 🚀 Deploy Backend to Railway:"
+echo "   📖 DETAILED GUIDE: See RAILWAY-DEPLOYMENT-GUIDE.md"
 echo "   - Go to https://railway.app"
 echo "   - Sign up/login with GitHub"
 echo "   - Create new project from GitHub repo"
-echo "   - Select 'backend' folder as root directory"
-echo "   - Add environment variables (see DEPLOYMENT.md)"
+echo "   - ⚠️  IMPORTANT: Select 'backend' folder as root directory"
+echo "   - Add environment variables from your .env file"
 echo ""
 echo "2. 🌐 Deploy Frontend to Vercel:"
 echo "   - Go to https://vercel.com"
@@ -133,6 +135,9 @@ echo "4. 🔐 Configure OAuth:"
 echo "   - Update Google OAuth redirect URIs"
 echo "   - Add your production URLs to authorized domains"
 echo ""
-echo "📖 For detailed instructions, see DEPLOYMENT.md"
+echo "📖 Documentation:"
+echo "   - RAILWAY-DEPLOYMENT-GUIDE.md (Step-by-step Railway guide)"
+echo "   - DEPLOYMENT.md (Complete deployment instructions)"
+echo "   - SECURITY.md (Security guidelines)"
 echo ""
 echo "🎉 Your LTOCMS application is ready for deployment!"
