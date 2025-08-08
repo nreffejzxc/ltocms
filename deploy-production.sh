@@ -83,8 +83,10 @@ git add backend/.env.example frontend/.env.example
 git add *.md *.sh *.json *.yaml
 git add backend/railway.json backend/Dockerfile backend/healthcheck.js
 git add backend/Procfile backend/nixpacks.toml backend/render.yaml
+git add backend/tsconfig.build.json
 git add frontend/vercel.json frontend/src/vite-env.d.ts
 git add railway.toml RAILWAY-DEPLOYMENT-GUIDE.md DEPLOY-TO-RENDER-GUIDE.md
+git add deploy-railway-cli.sh
 
 # Verify no .env files are being added
 if git diff --cached --name-only | grep -E "\.env$" > /dev/null; then

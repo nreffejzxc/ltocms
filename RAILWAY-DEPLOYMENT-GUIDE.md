@@ -163,7 +163,26 @@ npm error The `npm ci` command can only install with an existing package-lock.js
 3. **Redeploy on Railway** - trigger a new deployment
 4. **If still failing**, try the Railway CLI method below
 
-### Issue 2: "No start command found"
+### Issue 3: "npm run build" Fails - Exit Code 249
+
+**Error message**:
+
+```
+RUN npm run build
+process "/bin/bash -ol pipefail -c npm run build" did not complete successfully: exit code 249
+```
+
+**Solution**:
+
+1. **Updated build configuration** - I've added optimized TypeScript build config
+2. **Commit and push the changes**:
+   ```bash
+   ./deploy-production.sh
+   ```
+3. **Redeploy on Railway** - the build should now work with improved TypeScript configuration
+4. **Check build logs** - Railway will now show more detailed build information
+
+### Issue 4: "No start command found"
 
 **Solution**: Make sure you selected the `backend` folder as the root directory, not the main project folder.
 
