@@ -4,13 +4,14 @@ nixPkgs = ["nodejs_18"]
 [phases.install]
 cmds = [
   "npm install",
+  "npm ls typescript || npm install typescript",
   "npx tsc --version"
 ]
 
 [phases.build]
 cmds = [
-  "npm run build",
-  "ls -la dist/"
+  "chmod +x build.sh",
+  "./build.sh || npm run build"
 ]
 
 [start]
