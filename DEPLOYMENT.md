@@ -51,7 +51,9 @@ git remote add origin <your-github-repo-url>
 git push -u origin main
 ```
 
-### 2. Deploy Backend to Railway
+### 2. Deploy Backend (Choose One Option)
+
+#### Option A: Deploy to Railway
 
 1. **Sign up for Railway**: Go to [railway.app](https://railway.app) and sign up with GitHub
 2. **Create New Project**: Click "New Project" → "Deploy from GitHub repo"
@@ -80,6 +82,26 @@ GOOGLE_CLIENT_SECRET=your-actual-google-client-secret
 
 6. **Deploy**: Railway will automatically build and deploy your backend
 7. **Get Backend URL**: Copy the generated Railway URL (e.g., `https://your-app.railway.app`)
+
+**If Railway fails with "No start command found":**
+
+- The backend includes multiple configuration files (`nixpacks.toml`, `Procfile`, `railway.json`)
+- Try redeploying or use Option B (Render) below
+
+#### Option B: Deploy to Render (Alternative)
+
+1. **Sign up for Render**: Go to [render.com](https://render.com) and sign up with GitHub
+2. **Create New Web Service**: Click "New" → "Web Service"
+3. **Connect Repository**: Choose your LTOCMS repository
+4. **Configure Service**:
+   - **Name**: ltocms-backend
+   - **Root Directory**: backend
+   - **Environment**: Node
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `node dist/server.js`
+5. **Add Environment Variables**: Same as Railway above
+6. **Deploy**: Render will build and deploy your backend
+7. **Get Backend URL**: Copy the generated Render URL (e.g., `https://your-app.onrender.com`)
 
 ### 3. Deploy Frontend to Vercel
 
