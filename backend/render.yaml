@@ -3,7 +3,7 @@ services:
     name: ltocms-backend
     env: node
     plan: free
-    buildCommand: npm install --production=false && npm run build
+    buildCommand: npm install && npm run build
     startCommand: node dist/server.js
     envVars:
       - key: NODE_ENV

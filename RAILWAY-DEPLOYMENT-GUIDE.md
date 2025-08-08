@@ -119,7 +119,31 @@ Watch the build logs carefully:
 
 ## 🔧 Troubleshooting Common Issues
 
-### Issue 1: "npm ci" Error - "can only install with existing package-lock.json"
+### Issue 1: "Could not read package.json" - ENOENT Error
+
+**This is the most critical error!**
+
+**Error message**:
+
+```
+npm error path /app/package.json
+npm error errno -2
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory
+```
+
+**Root Cause**: Railway is not deploying from the `backend` folder correctly.
+
+**Solution**:
+
+1. **CRITICAL**: Make sure you selected `backend` as the root directory in Railway
+2. **In Railway Dashboard**:
+   - Go to your service settings
+   - Look for "Root Directory" or "Source Directory"
+   - Set it to: `backend`
+   - Save and redeploy
+3. **Alternative**: Delete the service and create a new one, making sure to select `backend` folder
+
+### Issue 2: "npm ci" Error - "can only install with existing package-lock.json"
 
 **This is the most common error!**
 
