@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OAuth Test</title>
+  </head>
+  <body>
+    <h1>OAuth Callback Test</h1>
+    <p>Click the button below to simulate an OAuth callback with tokens:</p>
+    <button onclick="simulateOAuthCallback()">Simulate OAuth Success</button>
+
+    <script>
+      function simulateOAuthCallback() {
+        // Simulate OAuth callback with mock tokens
+        const mockToken = "mock-access-token-" + Date.now();
+        const mockRefreshToken = "mock-refresh-token-" + Date.now();
+
+        // Redirect to the OAuth callback page with mock tokens
+        window.location.href = `http://localhost:5173/auth/callback?token=${mockToken}&refreshToken=${mockRefreshToken}`;
+      }
+    </script>
+  </body>
+</html>
