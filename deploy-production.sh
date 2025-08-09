@@ -32,7 +32,7 @@ else
         echo "🚨 CRITICAL SECURITY ISSUE: .env files are being tracked by git!"
         echo "   This exposes your database credentials and API keys!"
         echo "   Run these commands to fix:"
-        echo "   git rm --cached backend/.env backend/.env.production frontend/.env frontend/.env.production"
+        echo "   git rm --cached backend/.env backend/.env.example backend/.env.production frontend/.env frontend/.env.example frontend/.env.production"
         echo "   git commit -m 'Remove sensitive .env files from tracking'"
         echo ""
         echo "   Then regenerate all your secrets (see SECURITY.md)"
@@ -79,7 +79,7 @@ echo ""
 
 echo "📤 Preparing git commit..."
 git add .gitignore backend/.gitignore frontend/.gitignore
-git add backend/.env.example frontend/.env.example
+# This is optional => git add backend/.env.example frontend/.env.example
 git add *.md *.sh *.json *.yaml
 git add backend/railway.json backend/Dockerfile backend/healthcheck.js
 git add backend/Procfile backend/nixpacks.toml backend/render.yaml

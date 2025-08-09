@@ -31,7 +31,7 @@ callbackURL: process.env.NODE_ENV === 'production'
 
 1. Go to [Facebook Developers](https://developers.facebook.com/)
 2. Click **"My Apps"**
-3. Select your LTOCMS app (App ID: `25060027570267401`)
+3. Select your LTOCMS app (App ID: `798034545888164`)
 
 ### Step 2: Configure Valid OAuth Redirect URIs
 
@@ -89,8 +89,8 @@ Create or update `backend/.env` with:
 
 ```env
 # Facebook OAuth for Development
-FACEBOOK_APP_ID=25060027570267401
-FACEBOOK_APP_SECRET=37dea5e7ad9b52f3f8cdccdfdaac55da
+FACEBOOK_APP_ID=798034545888164
+FACEBOOK_APP_SECRET=961de59f54b3731d8037d507852b45bb
 
 # Other required variables
 NODE_ENV=development
