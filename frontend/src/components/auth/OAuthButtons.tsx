@@ -6,13 +6,21 @@ interface OAuthButtonsProps {
 
 const OAuthButtons: React.FC<OAuthButtonsProps> = ({ className = "" }) => {
   const handleGoogleLogin = () => {
-    // Redirect to backend Google OAuth endpoint
-    window.location.href = "http://localhost:5000/api/auth/google";
+    // Determine backend URL based on environment
+    const backendUrl = import.meta.env.PROD
+      ? "https://ltocms.onrender.com"
+      : "http://localhost:5000";
+
+    window.location.href = `${backendUrl}/api/auth/google`;
   };
 
   const handleFacebookLogin = () => {
-    // Redirect to backend Facebook OAuth endpoint
-    window.location.href = "http://localhost:5000/api/auth/facebook";
+    // Determine backend URL based on environment
+    const backendUrl = import.meta.env.PROD
+      ? "https://ltocms.onrender.com"
+      : "http://localhost:5000";
+
+    window.location.href = `${backendUrl}/api/auth/facebook`;
   };
 
   return (

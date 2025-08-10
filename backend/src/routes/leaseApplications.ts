@@ -2,10 +2,12 @@ import express from "express";
 import { body, param, query } from "express-validator";
 import {
   protect,
+  authorize,
   salesAccess,
   staffAccess,
   clientAccess,
 } from "../middleware/auth";
+import { UserRole } from "../types";
 import {
   getAllLeaseApplications,
   getMyLeaseApplications,
@@ -142,31 +144,41 @@ router.get("/stats", staffAccess as any, getApplicationStats as any);
 
 // GET /api/lease-applications/:id - Get application by ID
 // @ts-ignore
-router.get("/:id", getLeaseApplicationById as any);
+router.get(
+  "/:id",
+  authorize(
+    UserRole.ADMIN,
+    UserRole.SALES_ADMIN,
+    UserRole.SALES_ASSOCIATE,
+    UserRole.CREDIT_STAFF,
+    UserRole.CLIENT
+  ) as any,
+  getLeaseApplicationById as any
+);
 
 // POST /api/lease-applications - Submit new lease application (clients only)
 // @ts-ignore
 router.post(
   "/",
-  clientAccess as any,
+  authorize(UserRole.CLIENT, UserRole.ADMIN) as any,
   submitApplicationValidation,
   submitLeaseApplication as any
 );
 
-// PATCH /api/lease-applications/:id/status - Update application status (staff only)
+// PATCH /api/lease-applications/:id/status - Update application status (Admin, Sales Admin, Credit Staff)
 // @ts-ignore
 router.patch(
   "/:id/status",
-  staffAccess as any,
+  authorize(UserRole.ADMIN, UserRole.SALES_ADMIN, UserRole.CREDIT_STAFF) as any,
   updateStatusValidation,
   updateApplicationStatus as any
 );
 
-// POST /api/lease-applications/:id/convert - Convert application to lease (sales staff only)
+// POST /api/lease-applications/:id/convert - Convert application to lease (Admin, Sales Admin only)
 // @ts-ignore
 router.post(
   "/:id/convert",
-  salesAccess as any,
+  authorize(UserRole.ADMIN, UserRole.SALES_ADMIN) as any,
   convertToLeaseValidation,
   convertToLease as any
 );

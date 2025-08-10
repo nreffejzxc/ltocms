@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facebook App Setup Guide - Fix "App not active"</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f8f9fa;
+      }
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .error-box {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        border-left: 4px solid #f39c12;
+      }
+      .success-box {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        border-left: 4px solid #28a745;
+      }
+      .step {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        border-left: 4px solid #007bff;
+      }
+      .button {
+        display: inline-block;
+        background: #1877f2;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        margin: 10px 5px;
+        transition: background 0.3s;
+      }
+      .button:hover {
+        background: #166fe5;
+      }
+      .button.secondary {
+        background: #6c757d;
+      }
+      .button.secondary:hover {
+        background: #5a6268;
+      }
+      h1 {
+        color: #1877f2;
+        margin-bottom: 10px;
+      }
+      h2 {
+        color: #495057;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 10px;
+      }
+      h3 {
+        color: #6c757d;
+      }
+      code {
+        background: #f8f9fa;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-family: "Monaco", "Menlo", monospace;
+        font-size: 0.9em;
+      }
+      .checklist {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .checklist ul {
+        list-style: none;
+        padding: 0;
+      }
+      .checklist li {
+        padding: 8px 0;
+        border-bottom: 1px solid #e9ecef;
+      }
+      .checklist li:last-child {
+        border-bottom: none;
+      }
+      .checklist li::before {
+        content: "☐ ";
+        font-size: 1.2em;
+        margin-right: 10px;
+      }
+      .highlight {
+        background: #fff3cd;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚨 Fix "App not active" Facebook Error</h1>
+
+      <div class="error-box">
+        <h3>❌ Current Error:</h3>
+        <p><strong>"App not active - This app is not accessible right now and the app developer is aware of the issue."</strong></p>
+        <p>This happens because your Facebook app is in Development mode and you're not added as a developer or test user.</p>
+      </div>
+
+      <h2>🔧 Quick Fix Steps</h2>
+
+      <div class="step">
+        <h3>Step 1: Access Facebook Developer Console</h3>
+        <p>Click the button below to open Facebook Developers:</p>
+        <a href="https://developers.facebook.com/" target="_blank" class="button">Open Facebook Developers</a>
+        <p><small>Make sure you're logged into Facebook with the account you want to use for testing.</small></p>
+      </div>
+
+      <div class="step">
+        <h3>Step 2: Find Your App</h3>
+        <p>
+          Look for your app with ID:
+          <code class="highlight">798034545888164</code>
+        </p>
+        <p>
+          <strong>Can't see your app?</strong>
+          This means you're not added as a developer. Contact the app owner to add you.
+        </p>
+      </div>
+
+      <div class="step">
+        <h3>Step 3: Add Yourself as Developer (Most Important)</h3>
+        <p>In your Facebook app:</p>
+        <ol>
+          <li>
+            Go to
+            <strong>"Roles"</strong>
+            →
+            <strong>"Roles"</strong>
+          </li>
+          <li>
+            Click
+            <strong>"Add People"</strong>
+          </li>
+          <li>Enter your Facebook email or username</li>
+          <li>
+            Select role:
+            <strong>"Developer"</strong>
+            or
+            <strong>"Administrator"</strong>
+          </li>
+          <li>
+            Click
+            <strong>"Submit"</strong>
+          </li>
+        </ol>
+        <p><em>You must be added by an existing admin/developer of the app.</em></p>
+      </div>
+
+      <div class="step">
+        <h3>Step 4: Configure App Settings</h3>
+        <p>Once you have access, verify these settings:</p>
+
+        <div class="checklist">
+          <h4>Basic Settings (Settings → Basic):</h4>
+          <ul>
+            <li>
+              <strong>App Domains:</strong>
+              <code>localhost</code>
+            </li>
+            <li>
+              <strong>Website Site URL:</strong>
+              <code>http://localhost:5000</code>
+            </li>
+            <li>
+              <strong>App Mode:</strong>
+              Development
+            </li>
+          </ul>
+        </div>
+
+        <div class="checklist">
+          <h4>Facebook Login Settings (Facebook Login → Settings):</h4>
+          <ul>
+            <li><strong>Valid OAuth Redirect URIs:</strong></li>
+            <li style="margin-left: 20px"><code>http://localhost:5000/api/auth/facebook/callback</code></li>
+            <li style="margin-left: 20px"><code>http://localhost:5173/auth/callback</code></li>
+            <li>
+              <strong>Client OAuth Login:</strong>
+              Yes
+            </li>
+            <li>
+              <strong>Web OAuth Login:</strong>
+              Yes
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>Step 5: Test the Fix</h3>
+        <p>After making the changes:</p>
+        <ol>
+          <li>Wait 2-3 minutes for Facebook to update</li>
+          <li>Clear your browser cache</li>
+          <li>Try the Facebook login again</li>
+        </ol>
+        <a href="http://localhost:5000/api/auth/facebook" target="_blank" class="button">Test Facebook Login</a>
+      </div>
+
+      <div class="success-box">
+        <h3>✅ Expected Result:</h3>
+        <p>You should see the normal Facebook login page instead of "App not active" error.</p>
+        <p>After logging in, you'll be redirected back to your application.</p>
+      </div>
+
+      <h2>🚨 Alternative Solutions</h2>
+
+      <div class="step">
+        <h3>Option A: Add Test Users</h3>
+        <p>If you can't be added as a developer:</p>
+        <ol>
+          <li>
+            Go to
+            <strong>"Roles"</strong>
+            →
+            <strong>"Test Users"</strong>
+          </li>
+          <li>
+            Click
+            <strong>"Add"</strong>
+          </li>
+          <li>Create a test user or add existing Facebook account</li>
+          <li>Use that account for testing</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h3>Option B: Switch to Live Mode</h3>
+        <p><strong>⚠️ Not recommended for development</strong></p>
+        <p>This requires Facebook app review and approval.</p>
+        <ol>
+          <li>
+            Go to
+            <strong>"Settings"</strong>
+            →
+            <strong>"Basic"</strong>
+          </li>
+          <li>
+            Toggle
+            <strong>"App Mode"</strong>
+            to
+            <strong>"Live"</strong>
+          </li>
+          <li>Submit for Facebook review (can take days/weeks)</li>
+        </ol>
+      </div>
+
+      <h2>🔍 Troubleshooting</h2>
+
+      <div class="step">
+        <h3>Still Getting "App not active"?</h3>
+        <ul>
+          <li>
+            <strong>Wrong Facebook Account:</strong>
+            Make sure you're logged into Facebook with the account added as developer
+          </li>
+          <li>
+            <strong>Cache Issues:</strong>
+            Clear browser cache and cookies
+          </li>
+          <li>
+            <strong>Time Delay:</strong>
+            Wait 5-10 minutes after making changes
+          </li>
+          <li>
+            <strong>Incognito Mode:</strong>
+            Try testing in private/incognito browser
+          </li>
+          <li>
+            <strong>App Restrictions:</strong>
+            Check if your app has any policy violations
+          </li>
+        </ul>
+      </div>
+
+      <div class="step">
+        <h3>Backend Issues</h3>
+        <p>If your backend is crashing, make sure:</p>
+        <ul>
+          <li>MongoDB is connected properly</li>
+          <li>All environment variables are set</li>
+          <li>No syntax errors in your code</li>
+        </ul>
+        <a href="#" onclick="checkBackend()" class="button secondary">Check Backend Status</a>
+      </div>
+
+      <div class="success-box">
+        <h3>🎉 Success Checklist</h3>
+        <p>You'll know it's working when:</p>
+        <ul>
+          <li>✅ No "App not active" error</li>
+          <li>✅ Facebook login page appears normally</li>
+          <li>✅ Successful redirect back to your app</li>
+          <li>✅ User is logged in and can access dashboard</li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef">
+        <p>
+          <strong>Need more help?</strong>
+          Check the detailed guide:
+          <code>FACEBOOK-APP-NOT-ACTIVE-FIX.md</code>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      function checkBackend() {
+        fetch("http://localhost:5000/api/auth/facebook")
+          .then((response) => {
+            if (response.ok || response.status === 302) {
+              alert("✅ Backend is running! Facebook OAuth endpoint is accessible.");
+            } else {
+              alert("⚠️ Backend is running but there might be configuration issues.");
+            }
+          })
+          .catch((error) => {
+            alert("❌ Backend is not running. Please start it with: cd backend && npm run dev");
+          });
+      }
+
+      // Auto-check backend status on page load
+      window.onload = function () {
+        setTimeout(checkBackend, 1000);
+      };
+    </script>
+  </body>
+</html>

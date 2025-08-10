@@ -2,11 +2,13 @@ import express, { Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
 import {
   protect,
+  authorize,
   salesAccess,
   staffAccess,
   clientAccess,
+  managerAccess,
 } from "../middleware/auth";
-import { LeaseStatus } from "../types";
+import { LeaseStatus, UserRole } from "../types";
 import {
   getAllLeases,
   getMyLeases,
@@ -82,9 +84,20 @@ router.get("/overdue", staffAccess, getOverdueLeases);
 // @ts-ignore
 router.get("/stats", staffAccess, getLeaseStats);
 
-// GET /api/leases/:id - Get lease by ID
+// GET /api/leases/:id - Get lease by ID (clients can access their own leases)
 // @ts-ignore
-router.get("/:id", getLeaseById);
+router.get(
+  "/:id",
+  authorize(
+    UserRole.ADMIN,
+    UserRole.SALES_ADMIN,
+    UserRole.SALES_ASSOCIATE,
+    UserRole.CREDIT_STAFF,
+    UserRole.CASHIER,
+    UserRole.CLIENT
+  ) as any,
+  getLeaseById
+);
 
 // POST /api/leases - Create new lease
 // @ts-ignore
@@ -98,20 +111,37 @@ router.put("/:id", salesAccess, updateLease);
 // @ts-ignore
 router.delete("/:id", salesAccess, deleteLease);
 
-// PATCH /api/leases/:id/status - Update lease status
+// PATCH /api/leases/:id/status - Update lease status (Sales staff)
 // @ts-ignore
 router.patch("/:id/status", salesAccess, updateLeaseStatus);
 
-// PATCH /api/leases/:id/approve - Approve lease
+// PATCH /api/leases/:id/approve - Approve lease (Admin and Sales Admin only)
 // @ts-ignore
-router.patch("/:id/approve", salesAccess, approveLease);
+router.patch(
+  "/:id/approve",
+  authorize(UserRole.ADMIN, UserRole.SALES_ADMIN) as any,
+  approveLease
+);
 
-// PATCH /api/leases/:id/complete - Complete lease
+// PATCH /api/leases/:id/complete - Complete lease (Admin and Sales Admin only)
 // @ts-ignore
-router.patch("/:id/complete", salesAccess, completeLease);
+router.patch(
+  "/:id/complete",
+  authorize(UserRole.ADMIN, UserRole.SALES_ADMIN) as any,
+  completeLease
+);
 
-// POST /api/leases/:id/early-buyout - Request early buyout
+// POST /api/leases/:id/early-buyout - Request early buyout (clients can request for their own leases)
 // @ts-ignore
-router.post("/:id/early-buyout", requestEarlyBuyout);
+router.post(
+  "/:id/early-buyout",
+  authorize(
+    UserRole.ADMIN,
+    UserRole.SALES_ADMIN,
+    UserRole.SALES_ASSOCIATE,
+    UserRole.CLIENT
+  ) as any,
+  requestEarlyBuyout
+);
 
 export default router;

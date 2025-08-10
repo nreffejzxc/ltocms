@@ -88,6 +88,16 @@ export const creditAccess = authorize(
   UserRole.CASHIER
 );
 
+// Manager access (Admin, Sales Admin)
+export const managerAccess = authorize(UserRole.ADMIN, UserRole.SALES_ADMIN);
+
+// Financial access (Admin, Credit Staff, Cashier)
+export const financialAccess = authorize(
+  UserRole.ADMIN,
+  UserRole.CREDIT_STAFF,
+  UserRole.CASHIER
+);
+
 // Client access (Admin, Client)
 export const clientAccess = authorize(UserRole.ADMIN, UserRole.CLIENT);
 

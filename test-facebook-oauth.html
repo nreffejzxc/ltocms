@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facebook OAuth Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .button {
+        background: #1877f2;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 6px;
+        display: inline-block;
+        margin: 10px 0;
+        font-weight: bold;
+      }
+      .button:hover {
+        background: #166fe5;
+      }
+      .info {
+        background: #f8f9fa;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 8px;
+        border-left: 4px solid #1877f2;
+      }
+      .success {
+        border-left-color: #28a745;
+      }
+      .warning {
+        border-left-color: #ffc107;
+      }
+      .error {
+        border-left-color: #dc3545;
+      }
+      .step {
+        background: #e9ecef;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 6px;
+      }
+      h1 {
+        color: #1877f2;
+      }
+      h3 {
+        color: #495057;
+      }
+      code {
+        background: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Courier New", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔧 Facebook OAuth Test for LTOCMS</h1>
+
+    <div class="info success">
+      <h3>✅ Current Configuration:</h3>
+      <p>
+        <strong>App ID:</strong>
+        <code>798034545888164</code>
+      </p>
+      <p>
+        <strong>Callback URL:</strong>
+        <code>http://localhost:5000/api/auth/facebook/callback</code>
+      </p>
+      <p>
+        <strong>Frontend URL:</strong>
+        <code>http://localhost:5173</code>
+      </p>
+      <p>
+        <strong>Environment:</strong>
+        Development
+      </p>
+    </div>
+
+    <div class="info warning">
+      <h3>⚠️ Before Testing:</h3>
+      <ol>
+        <li>
+          Make sure your backend is running:
+          <code>cd backend && npm run dev</code>
+        </li>
+        <li>Configure Facebook Developer Console (see checklist below)</li>
+        <li>Ensure your Facebook app is in Development mode</li>
+      </ol>
+    </div>
+
+    <div class="step">
+      <h3>🧪 Test Facebook OAuth:</h3>
+      <p>Click the button below to test your Facebook OAuth configuration:</p>
+      <a href="http://localhost:5000/api/auth/facebook" class="button">🚀 Test Facebook Login</a>
+      <p><small>This will redirect you to Facebook login, then back to your app</small></p>
+    </div>
+
+    <div class="info">
+      <h3>📋 Facebook Developer Console Checklist:</h3>
+      <p>
+        Go to
+        <a href="https://developers.facebook.com/" target="_blank">Facebook Developers</a>
+        and verify:
+      </p>
+
+      <h4>1. Valid OAuth Redirect URIs (Facebook Login → Settings):</h4>
+      <ul>
+        <li><code>http://localhost:5000/api/auth/facebook/callback</code></li>
+        <li><code>http://localhost:5173/auth/callback</code></li>
+        <li><code>https://ltocms.onrender.com/api/auth/facebook/callback</code></li>
+      </ul>
+
+      <h4>2. App Domains (Settings → Basic):</h4>
+      <ul>
+        <li><code>localhost</code></li>
+        <li><code>ltocms.onrender.com</code></li>
+      </ul>
+
+      <h4>3. Site URL (Settings → Basic → Website):</h4>
+      <ul>
+        <li><code>http://localhost:5000</code></li>
+      </ul>
+
+      <h4>4. App Mode:</h4>
+      <ul>
+        <li>
+          Set to
+          <strong>"Development"</strong>
+          for localhost testing
+        </li>
+      </ul>
+    </div>
+
+    <div class="info error">
+      <h3>🚨 Common Errors & Solutions:</h3>
+
+      <h4>"URL Blocked: This redirect failed"</h4>
+      <p>→ Add localhost URLs to Facebook app's Valid OAuth Redirect URIs</p>
+
+      <h4>"App Not Setup: This app is still in development mode"</h4>
+      <p>→ Add your Facebook account as a test user in the Facebook app</p>
+      <p>→ Or switch app to "Live" mode (requires Facebook review)</p>
+
+      <h4>"Invalid OAuth access token"</h4>
+      <p>→ Check JWT configuration in your backend</p>
+      <p>→ Ensure MongoDB connection is working</p>
+
+      <h4>CORS Errors</h4>
+      <p>→ Verify FRONTEND_URL in .env matches your frontend server</p>
+    </div>
+
+    <div class="step">
+      <h3>🔄 Expected Flow:</h3>
+      <ol>
+        <li>Click "Test Facebook Login" button</li>
+        <li>Redirected to Facebook login page</li>
+        <li>Enter Facebook credentials</li>
+        <li>
+          Facebook redirects back to:
+          <code>http://localhost:5000/api/auth/facebook/callback</code>
+        </li>
+        <li>Backend processes OAuth and generates JWT tokens</li>
+        <li>
+          Backend redirects to:
+          <code>http://localhost:5173/auth/callback?token=...&refreshToken=...</code>
+        </li>
+        <li>Frontend receives tokens and completes authentication</li>
+      </ol>
+    </div>
+
+    <div class="info success">
+      <h3>🎉 Success Indicators:</h3>
+      <ul>
+        <li>No "URL Blocked" errors from Facebook</li>
+        <li>Successful redirect to Facebook login</li>
+        <li>Successful redirect back to your frontend</li>
+        <li>User logged in and redirected to dashboard</li>
+      </ul>
+    </div>
+
+    <script>
+      // Check if backend is running
+      fetch("http://localhost:5000/api/auth/facebook")
+        .then(() => {
+          console.log("✅ Backend server is running");
+        })
+        .catch(() => {
+          console.log("❌ Backend server is not running");
+          const warning = document.createElement("div");
+          warning.className = "info error";
+          warning.innerHTML = "<h3>❌ Backend Not Running</h3><p>Please start your backend server: <code>cd backend && npm run dev</code></p>";
+          document.body.insertBefore(warning, document.body.firstChild);
+        });
+    </script>
+  </body>
+</html>

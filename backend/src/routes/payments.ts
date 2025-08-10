@@ -2,11 +2,13 @@ import express, { Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
 import {
   protect,
+  authorize,
   creditAccess,
   staffAccess,
   clientAccess,
+  financialAccess,
 } from "../middleware/auth";
-import { PaymentStatus, PaymentMethod } from "../types";
+import { PaymentStatus, PaymentMethod, UserRole } from "../types";
 import {
   getAllPayments,
   getMyPayments,
@@ -74,44 +76,89 @@ router.get("/overdue", creditAccess, getOverduePayments);
 // @ts-ignore
 router.get("/stats", staffAccess, getPaymentStats);
 
-// GET /api/payments/lease/:leaseId - Get payments for a specific lease
+// GET /api/payments/lease/:leaseId - Get payments for a specific lease (clients can access their own lease payments)
 // @ts-ignore
-router.get("/lease/:leaseId", getPaymentsByLease);
+router.get(
+  "/lease/:leaseId",
+  authorize(
+    UserRole.ADMIN,
+    UserRole.SALES_ADMIN,
+    UserRole.SALES_ASSOCIATE,
+    UserRole.CREDIT_STAFF,
+    UserRole.CASHIER,
+    UserRole.CLIENT
+  ) as any,
+  getPaymentsByLease
+);
 
-// GET /api/payments/:id - Get payment by ID
+// GET /api/payments/:id - Get payment by ID (clients can access their own payments)
 // @ts-ignore
-router.get("/:id", getPaymentById);
+router.get(
+  "/:id",
+  authorize(
+    UserRole.ADMIN,
+    UserRole.SALES_ADMIN,
+    UserRole.SALES_ASSOCIATE,
+    UserRole.CREDIT_STAFF,
+    UserRole.CASHIER,
+    UserRole.CLIENT
+  ) as any,
+  getPaymentById
+);
 
-// GET /api/payments/:id/receipt - Get payment receipt
+// GET /api/payments/:id/receipt - Get payment receipt (clients can access their own payment receipts)
 // @ts-ignore
-router.get("/:id/receipt", getPaymentReceipt);
+router.get(
+  "/:id/receipt",
+  authorize(
+    UserRole.ADMIN,
+    UserRole.SALES_ADMIN,
+    UserRole.SALES_ASSOCIATE,
+    UserRole.CREDIT_STAFF,
+    UserRole.CASHIER,
+    UserRole.CLIENT
+  ) as any,
+  getPaymentReceipt
+);
 
-// POST /api/payments - Create new payment
+// POST /api/payments - Create new payment (Credit staff and Cashiers)
 // @ts-ignore
-router.post("/", creditAccess, createPaymentValidation, createPayment);
+router.post("/", financialAccess, createPaymentValidation, createPayment);
 
-// PUT /api/payments/:id - Update payment
+// PUT /api/payments/:id - Update payment (Credit staff and Cashiers)
 // @ts-ignore
-router.put("/:id", creditAccess, updatePayment);
+router.put("/:id", financialAccess, updatePayment);
 
-// DELETE /api/payments/:id - Delete payment
+// DELETE /api/payments/:id - Delete payment (Admin and Credit staff only)
 // @ts-ignore
-router.delete("/:id", creditAccess, deletePayment);
+router.delete(
+  "/:id",
+  authorize(UserRole.ADMIN, UserRole.CREDIT_STAFF) as any,
+  deletePayment
+);
 
-// PATCH /api/payments/:id/status - Update payment status
+// PATCH /api/payments/:id/status - Update payment status (Credit staff and Cashiers)
 // @ts-ignore
-router.patch("/:id/status", creditAccess, updatePaymentStatus);
+router.patch("/:id/status", financialAccess, updatePaymentStatus);
 
-// PATCH /api/payments/:id/complete - Mark payment as completed
+// PATCH /api/payments/:id/complete - Mark payment as completed (Credit staff and Cashiers)
 // @ts-ignore
-router.patch("/:id/complete", creditAccess, completePayment);
+router.patch("/:id/complete", financialAccess, completePayment);
 
-// PATCH /api/payments/:id/refund - Refund payment
+// PATCH /api/payments/:id/refund - Refund payment (Admin and Credit staff only)
 // @ts-ignore
-router.patch("/:id/refund", creditAccess, refundPayment);
+router.patch(
+  "/:id/refund",
+  authorize(UserRole.ADMIN, UserRole.CREDIT_STAFF) as any,
+  refundPayment
+);
 
-// POST /api/payments/bulk-create - Create multiple payments (for monthly billing)
+// POST /api/payments/bulk-create - Create multiple payments (Credit staff only)
 // @ts-ignore
-router.post("/bulk-create", creditAccess, bulkCreatePayments);
+router.post(
+  "/bulk-create",
+  authorize(UserRole.ADMIN, UserRole.CREDIT_STAFF) as any,
+  bulkCreatePayments
+);
 
 export default router;

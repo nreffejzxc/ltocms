@@ -212,10 +212,32 @@ router.get(
 
 router.get(
   "/facebook/callback",
-  passport.authenticate("facebook", { session: false }),
+  (req, res, next) => {
+    console.log("Facebook callback received:", req.query);
+    passport.authenticate("facebook", {
+      session: false,
+      failureRedirect: `${process.env.FRONTEND_URL}/login?error=facebook_auth_failed`,
+    })(req, res, next);
+  },
   async (req: any, res) => {
     try {
+      console.log(
+        "Facebook OAuth callback - User authenticated:",
+        req.user ? "Yes" : "No"
+      );
+
+      if (!req.user) {
+        console.error("No user found in Facebook OAuth callback");
+        return res.redirect(`${process.env.FRONTEND_URL}/login?error=no_user`);
+      }
+
       const user = req.user;
+      console.log("Facebook OAuth user:", {
+        id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
 
       // Generate JWT tokens
       const tokenPair = generateTokenPair({
@@ -229,8 +251,12 @@ router.get(
       user.lastLogin = new Date();
       await user.save();
 
+      console.log("Facebook OAuth - Tokens generated, redirecting to frontend");
+
       // Redirect to frontend with tokens
       const redirectUrl = `${process.env.FRONTEND_URL}/auth/callback?token=${tokenPair.accessToken}&refreshToken=${tokenPair.refreshToken}`;
+      console.log("Redirecting to:", redirectUrl);
+
       res.redirect(redirectUrl);
     } catch (error) {
       console.error("Facebook OAuth callback error:", error);

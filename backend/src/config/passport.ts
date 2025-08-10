@@ -23,7 +23,10 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/api/auth/google/callback",
+        callbackURL:
+          process.env.NODE_ENV === "production"
+            ? "/api/auth/google/callback"
+            : "http://localhost:5000/api/auth/google/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -96,16 +99,34 @@ if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
       {
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: "/api/auth/facebook/callback",
-        profileFields: ["id", "emails", "name", "picture.type(large)"],
+        callbackURL:
+          process.env.NODE_ENV === "production"
+            ? "/api/auth/facebook/callback"
+            : "http://localhost:5000/api/auth/facebook/callback",
+        profileFields: [
+          "id",
+          "emails",
+          "name",
+          "picture.type(large)",
+          "displayName",
+        ],
+        enableProof: true,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          // Check if user already exists with this Facebook ID
+          console.log(
+            "Facebook OAuth Profile:",
+            JSON.stringify(profile, null, 2)
+          );
+
+          // Extract email from profile
+          const email = profile.emails?.[0]?.value;
+
+          // Check if user already exists with this Facebook ID or email
           let user = await User.findOne({
             $or: [
               { "providerData.facebookId": profile.id },
-              { email: profile.emails?.[0]?.value },
+              ...(email ? [{ email: email }] : []),
             ],
           });
 
@@ -119,16 +140,29 @@ if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
                 facebookId: profile.id,
                 picture: profile.photos?.[0]?.value,
               };
+              // Update email if we have one and user doesn't
+              if (email && !user.email) {
+                user.email = email;
+              }
               await user.save();
             }
             return done(null, user);
           }
 
+          // Generate fallback email if Facebook doesn't provide one
+          const fallbackEmail = email || `facebook_${profile.id}@ltocms.local`;
+
           // Create new user
           const newUser = await User.create({
-            firstName: profile.name?.givenName || "Unknown",
-            lastName: profile.name?.familyName || "User",
-            email: profile.emails?.[0]?.value || "",
+            firstName:
+              profile.name?.givenName ||
+              profile.displayName?.split(" ")[0] ||
+              "Facebook",
+            lastName:
+              profile.name?.familyName ||
+              profile.displayName?.split(" ").slice(1).join(" ") ||
+              "User",
+            email: fallbackEmail,
             provider: OAuthProvider.FACEBOOK,
             providerId: profile.id,
             providerData: {
@@ -136,12 +170,13 @@ if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
               picture: profile.photos?.[0]?.value,
             },
             role: UserRole.CLIENT,
-            isEmailVerified: true, // Facebook emails are verified
+            isEmailVerified: !!email, // Only verified if Facebook provided real email
             profileImage: profile.photos?.[0]?.value,
           });
 
           return done(null, newUser);
         } catch (error) {
+          console.error("Facebook OAuth Error:", error);
           return done(error, undefined);
         }
       }

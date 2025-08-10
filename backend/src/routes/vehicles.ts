@@ -1,7 +1,12 @@
 import express, { Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
-import { protect, salesAccess, staffAccess } from "../middleware/auth";
-import { VehicleStatus } from "../types";
+import {
+  protect,
+  authorize,
+  salesAccess,
+  staffAccess,
+} from "../middleware/auth";
+import { VehicleStatus, UserRole } from "../types";
 import {
   getAllVehicles,
   getAvailableVehicles,
@@ -64,7 +69,7 @@ const createVehicleValidation = [
 // @ts-ignore
 router.get("/", staffAccess, getAllVehicles);
 
-// GET /api/vehicles/available - Get available vehicles
+// GET /api/vehicles/available - Get available vehicles (accessible to all authenticated users)
 // @ts-ignore
 router.get("/available", getAvailableVehicles);
 
@@ -72,7 +77,7 @@ router.get("/available", getAvailableVehicles);
 // @ts-ignore
 router.get("/stats", staffAccess, getVehicleStats);
 
-// GET /api/vehicles/:id - Get vehicle by ID
+// GET /api/vehicles/:id - Get vehicle by ID (accessible to all authenticated users)
 // @ts-ignore
 router.get("/:id", getVehicleById);
 
@@ -84,11 +89,15 @@ router.post("/", salesAccess, createVehicleValidation, createVehicle);
 // @ts-ignore
 router.put("/:id", salesAccess, updateVehicle);
 
-// DELETE /api/vehicles/:id - Delete vehicle
+// DELETE /api/vehicles/:id - Delete vehicle (Admin and Sales Admin only)
 // @ts-ignore
-router.delete("/:id", salesAccess, deleteVehicle);
+router.delete(
+  "/:id",
+  authorize(UserRole.ADMIN, UserRole.SALES_ADMIN) as any,
+  deleteVehicle
+);
 
-// PATCH /api/vehicles/:id/status - Update vehicle status
+// PATCH /api/vehicles/:id/status - Update vehicle status (Sales staff)
 // @ts-ignore
 router.patch("/:id/status", salesAccess, updateVehicleStatus);
 
