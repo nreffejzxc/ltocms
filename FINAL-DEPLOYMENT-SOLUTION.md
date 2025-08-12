@@ -64,7 +64,7 @@ railway up
 ### Step 1: Prepare Code
 
 ```bash
-./deploy-production.sh
+./deploy.sh
 ```
 
 ### Step 2: Deploy Backend (Choose One)

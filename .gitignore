@@ -80,3 +80,24 @@ public/uploads/
 
 # Cache
 .cache/
+
+# Preferences
+# debug-facebook-oauth.html
+# deploy-facebook-oauth-fix.sh
+# deploy-local.sh
+# deploy-railway-cli.sh
+# deploy-render-fix-v2.sh
+# DEPLOY-TO-RENDER-GUIDE.md
+# DEPLOYMENT-COMPLETION-GUIDE.md
+# DEPLOYMENT-SUCCESS.md
+# DEPLOYMENT.md
+# ENVIRONMENT-VARIABLES.md
+# FACEBOOK-APP-NOT-ACTIVE-FIX.md
+# facebook-app-setup-guide.html
+# FACEBOOK-OAUTH-LOCALHOST-FIX.md
+# FACEBOOK-OAUTH-SETUP.md
+# FINAL-DEPLOYMENT-SOLUTION.md
+# MONGODB-ATLAS-SETUP.md
+# PRODUCTION-SESSION-STORE.md
+# RAILWAY-DEPLOYMENT-GUIDE.md
+# RAILWAY-ISSUES-FINAL-SOLUTION.md

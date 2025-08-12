@@ -212,7 +212,7 @@ ltocms-v3/
 For a quick deployment to free hosting services, run:
 
 ```bash
-./deploy-production.sh
+./deploy.sh
 ```
 
 This script will:

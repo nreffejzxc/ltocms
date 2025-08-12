@@ -17,7 +17,7 @@ First, make sure your code is committed and pushed to GitHub:
 
 ```bash
 # Run the deployment script to commit all files safely
-./deploy-production.sh
+./deploy.sh
 
 # If you don't have a GitHub repository yet:
 git remote add origin https://github.com/yourusername/your-repo-name.git
@@ -158,7 +158,7 @@ npm error The `npm ci` command can only install with an existing package-lock.js
 1. **Push the updated configuration** - I've fixed this by updating all config files to use `npm install` instead of `npm ci`
 2. **Commit and push the changes**:
    ```bash
-   ./deploy-production.sh
+   ./deploy.sh
    ```
 3. **Redeploy on Railway** - trigger a new deployment
 4. **If still failing**, try the Railway CLI method below
@@ -177,7 +177,7 @@ process "/bin/bash -ol pipefail -c npm run build" did not complete successfully:
 1. **Updated build configuration** - I've added optimized TypeScript build config
 2. **Commit and push the changes**:
    ```bash
-   ./deploy-production.sh
+   ./deploy.sh
    ```
 3. **Redeploy on Railway** - the build should now work with improved TypeScript configuration
 4. **Check build logs** - Railway will now show more detailed build information

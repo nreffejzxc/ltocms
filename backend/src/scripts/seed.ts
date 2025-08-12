@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 import User from "../models/User";
 import Vehicle from "../models/Vehicle";
 import { UserRole, VehicleStatus } from "../types";
@@ -35,7 +34,7 @@ const seedDatabase = async () => {
           city: "Admin City",
           state: "AC",
           zipCode: "12345",
-          country: "USA",
+          country: "PH",
         },
         isEmailVerified: true,
         isActive: true,
@@ -52,7 +51,7 @@ const seedDatabase = async () => {
           city: "Sales City",
           state: "SC",
           zipCode: "12345",
-          country: "USA",
+          country: "PH",
         },
         isEmailVerified: true,
         isActive: true,
@@ -69,7 +68,7 @@ const seedDatabase = async () => {
           city: "Credit City",
           state: "CC",
           zipCode: "12345",
-          country: "USA",
+          country: "PH",
         },
         isEmailVerified: true,
         isActive: true,
@@ -86,7 +85,7 @@ const seedDatabase = async () => {
           city: "Client City",
           state: "CL",
           zipCode: "12345",
-          country: "USA",
+          country: "PH",
         },
         isEmailVerified: true,
         isActive: true,
@@ -103,7 +102,7 @@ const seedDatabase = async () => {
           city: "Example City",
           state: "EX",
           zipCode: "12345",
-          country: "USA",
+          country: "PH",
         },
         isEmailVerified: true,
         isActive: true,
@@ -117,14 +116,14 @@ const seedDatabase = async () => {
         await User.create(userData);
         console.log(`✅ Created ${userData.role} user: ${userData.email}`);
       } else {
-        console.log(`⚠️  User already exists: ${userData.email}`);
+        console.log(`⚠️ User already exists: ${userData.email}`);
       }
     }
 
     // Get admin user for vehicle creation
     const adminUser = await User.findOne({ email: "admin@ltocms.com" });
     if (!adminUser) {
-      console.log("⚠️  Admin user not found, skipping vehicle creation");
+      console.log("⚠️ Admin user not found, skipping vehicle creation");
     } else {
       // Create sample vehicles
       const sampleVehicles = [
@@ -227,7 +226,7 @@ const seedDatabase = async () => {
             `✅ Created vehicle: ${vehicleData.year} ${vehicleData.make} ${vehicleData.vehicleModel}`
           );
         } else {
-          console.log(`⚠️  Vehicle already exists: ${vehicleData.vin}`);
+          console.log(`⚠️ Vehicle already exists: ${vehicleData.vin}`);
         }
       }
     }

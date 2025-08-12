@@ -15,7 +15,7 @@ Since Railway is having issues with the directory structure, let's use Render.co
 
 ```bash
 # Commit and push all changes
-./deploy-production.sh
+./deploy.sh
 ```
 
 ### Step 2: Sign Up for Render

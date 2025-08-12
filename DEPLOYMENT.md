@@ -23,7 +23,7 @@ Your `.env` files contain database credentials and API keys that must NEVER be c
 **IMPORTANT: Run the security-aware deployment script:**
 
 ```bash
-./deploy-production.sh
+./deploy.sh
 ```
 
 This script will:
@@ -127,7 +127,7 @@ VITE_ALLOWED_FILE_TYPES=jpg,jpeg,png,pdf,doc,docx
 VITE_DEFAULT_PAGE_SIZE=10
 VITE_MAX_PAGE_SIZE=100
 VITE_TOAST_DURATION=4000
-VITE_TOAST_POSITION=top-right
+VITE_TOAST_POSITION=bottom-right
 ```
 
 5. **Deploy**: Vercel will automatically build and deploy your frontend
