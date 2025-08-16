@@ -1,4 +1,4 @@
-# LTOCMS v3 - Lease-to-Own Car Management System
+# LTOCMS - Lease-to-Own Car Management System
 
 A complete MERN stack application for managing lease-to-own car transactions with role-based access control, JWT authentication, and modern UI.
 
